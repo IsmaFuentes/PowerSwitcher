@@ -1,6 +1,6 @@
 # PowerSwitcher
 
-Windows 10 tray app
+Windows 10 tray app (early build)
 
 Enables switching between different power plans
 - Default plans:
