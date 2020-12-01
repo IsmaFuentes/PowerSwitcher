@@ -17,6 +17,7 @@ namespace PowerSwitcher
         {
             this.manager = new PowerManager();
 
+            // App configuration
             InitializeAppContext();
             InitializeMenuItems();
             CustomizeContextMenuStrip();
