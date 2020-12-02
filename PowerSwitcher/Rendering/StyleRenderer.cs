@@ -9,6 +9,7 @@ namespace PowerSwitcher.Rendering
     /// </summary>
     public class StyleRenderer : ToolStripProfessionalRenderer
     {
+        private readonly Pen LineColor = Pens.Black;
         public StyleRenderer() : base(new ColorTable())
         {
 
@@ -19,9 +20,11 @@ namespace PowerSwitcher.Rendering
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var r = new Rectangle(e.ArrowRectangle.Location, e.ArrowRectangle.Size);
             r.Inflate(-2, -6);
-            e.Graphics.DrawLines(Pens.Black, new Point[]{
+
+            e.Graphics.DrawLines(this.LineColor, new Point[] 
+            {
                 new Point(r.Left, r.Top),
-                new Point(r.Right, r.Top + r.Height /2),
+                new Point(r.Right, r.Top + r.Height / 2),
                 new Point(r.Left, r.Top+ r.Height)
             });
         }
@@ -31,16 +34,13 @@ namespace PowerSwitcher.Rendering
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var r = new Rectangle(e.ImageRectangle.Location, e.ImageRectangle.Size);
             r.Inflate(-4, -6);
-            e.Graphics.DrawLines(Pens.Black, new Point[]{
-                new Point(r.Left, r.Bottom - r.Height /2),
-                new Point(r.Left + r.Width /3,  r.Bottom),
+
+            e.Graphics.DrawLines(this.LineColor, new Point[] 
+            {
+                new Point(r.Left, r.Bottom - r.Height / 2),
+                new Point(r.Left + r.Width / 3,  r.Bottom),
                 new Point(r.Right, r.Top)
             });
         }
-
-        //protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
-        //{
-        //    base.OnRenderItemText(e);
-        //}
     }
 }

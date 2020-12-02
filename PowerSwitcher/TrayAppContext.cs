@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using PowerSwitcher.Rendering;
+using Microsoft.Win32;
 
 namespace PowerSwitcher
 {
@@ -14,6 +15,7 @@ namespace PowerSwitcher
         private NotifyIcon trayIcon;
         private PowerManager manager;
         private List<PowerOption> PowerOptions;
+        private RegistryKey rKey = Registry.CurrentUser.OpenSubKey(AppVariables.RegistryKeyPath, true);
 
         public TrayAppContext()
         {
@@ -22,9 +24,10 @@ namespace PowerSwitcher
             // App configuration
             InitializeAppContext();
             InitializeMenuItems();
-
-            // App customization
             CustomizeContextMenuStrip();
+
+            // pending
+            IsRegisteredOnStartup();
         }
 
         private void InitializeAppContext()
@@ -42,6 +45,20 @@ namespace PowerSwitcher
             trayIcon.ContextMenuStrip.Opening += OnContextMenuStripOpening;
         }
 
+        private void IsRegisteredOnStartup()
+        {
+            // todo: Handle app registration on windows startup
+            if (rKey.GetValue(AppVariables.ApplicationName) == null)
+            {
+                // App is not registered at startup, to register it -> rKey.SetValue(AppVariables.ApplicationName, Application.ExecutablePath);
+            }
+            else
+            {
+                // App is registered on startup, to unregister it -> rKey.DeleteValue(AppVariables.ApplicationName, Application.ExecutablePath);
+            }
+        }
+
+        #region ContextMenuStrip
         private void InitializeMenuItems()
         {
             var cOpt = this.manager.GetCurrentPowerOption();
@@ -55,10 +72,8 @@ namespace PowerSwitcher
                 this.trayIcon.ContextMenuStrip.Items.Add(item);
             }
 
-            // Item separator
             trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
 
-            // Exit button
             trayIcon.ContextMenuStrip.Items.Add("Exit", null, Exit);
         }
 
@@ -96,6 +111,8 @@ namespace PowerSwitcher
         {
             this.trayIcon.ContextMenuStrip.Renderer = new StyleRenderer();
         }
+
+        #endregion
 
         void Exit(object sender, EventArgs e)
         {
