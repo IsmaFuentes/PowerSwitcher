@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
+using PowerSwitcher.Rendering;
 
 namespace PowerSwitcher
 {
@@ -20,6 +22,8 @@ namespace PowerSwitcher
             // App configuration
             InitializeAppContext();
             InitializeMenuItems();
+
+            // App customization
             CustomizeContextMenuStrip();
         }
 
@@ -36,11 +40,6 @@ namespace PowerSwitcher
             this.PowerOptions = manager.GetPowerOptions().Where(p => p.Name != string.Empty).ToList();
 
             trayIcon.ContextMenuStrip.Opening += OnContextMenuStripOpening;
-        }
-
-        private void CustomizeContextMenuStrip()
-        {
-            this.trayIcon.ContextMenuStrip.RenderMode = ToolStripRenderMode.Professional;
         }
 
         private void InitializeMenuItems()
@@ -91,6 +90,11 @@ namespace PowerSwitcher
             }
 
             ((ToolStripMenuItem)trayIcon.ContextMenuStrip.Items[index]).Checked = true;
+        }
+
+        private void CustomizeContextMenuStrip()
+        {
+            this.trayIcon.ContextMenuStrip.Renderer = new StyleRenderer();
         }
 
         void Exit(object sender, EventArgs e)
