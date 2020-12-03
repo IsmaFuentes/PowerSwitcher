@@ -33,8 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>powerswitcher.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>PowerSwitcher.Program</StartupObject>
@@ -90,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\powerswitcher.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="powerswitcher.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
