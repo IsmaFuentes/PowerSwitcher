@@ -25,9 +25,14 @@ namespace PowerSwitcher.Implementation
 
         public PowerManager()
         {
-            this.MaxPerformance = this.CreatePowerOption(PowerOptions.MaxPerformance);
-            this.PowerSaving = this.CreatePowerOption(PowerOptions.PowerSaving);
-            this.Balanced = this.CreatePowerOption(PowerOptions.Balanced);
+            this.MaxPerformance = this.CreatePowerOption("High performance", PowerOptions.MaxPerformance);
+            this.PowerSaving = this.CreatePowerOption("Power saver", PowerOptions.PowerSaving);
+            this.Balanced = this.CreatePowerOption("Balanced", PowerOptions.Balanced);
+        }
+
+        private PowerOption CreatePowerOption(string name, string guid)
+        {
+            return new PowerOption(name, new Guid(guid));
         }
 
         private PowerOption CreatePowerOption(string guid)
