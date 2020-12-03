@@ -1,12 +1,11 @@
-﻿using PowerSwitcher.Implementation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
+using PowerSwitcher.Implementation;
 using PowerSwitcher.Rendering;
-using Microsoft.Win32;
+using PowerSwitcher.Utils;
 
 namespace PowerSwitcher
 {
@@ -15,7 +14,6 @@ namespace PowerSwitcher
         private NotifyIcon trayIcon;
         private PowerManager manager;
         private List<PowerOption> PowerOptions;
-        private RegistryKey rKey = Registry.CurrentUser.OpenSubKey(AppVariables.RegistryKeyPath, true);
 
         public TrayAppContext()
         {
@@ -25,9 +23,6 @@ namespace PowerSwitcher
             InitializeAppContext();
             InitializeMenuItems();
             CustomizeContextMenuStrip();
-
-            // pending
-            IsRegisteredOnStartup();
         }
 
         private void InitializeAppContext()
@@ -45,19 +40,6 @@ namespace PowerSwitcher
             trayIcon.ContextMenuStrip.Opening += OnContextMenuStripOpening;
         }
 
-        private void IsRegisteredOnStartup()
-        {
-            // todo: Handle app registration on windows startup
-            if (rKey.GetValue(AppVariables.ApplicationName) == null)
-            {
-                // App is not registered at startup, to register it -> rKey.SetValue(AppVariables.ApplicationName, Application.ExecutablePath);
-            }
-            else
-            {
-                // App is registered on startup, to unregister it -> rKey.DeleteValue(AppVariables.ApplicationName, Application.ExecutablePath);
-            }
-        }
-
         #region ContextMenuStrip
         private void InitializeMenuItems()
         {
@@ -73,8 +55,31 @@ namespace PowerSwitcher
             }
 
             trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-
+            
+            // options menu + exit button
+            trayIcon.ContextMenuStrip.Items.Add(this.CreateOptionsMenu());
             trayIcon.ContextMenuStrip.Items.Add("Exit", null, Exit);
+        }
+
+        private ToolStripMenuItem CreateOptionsMenu()
+        {
+            var options = new ToolStripMenuItem("Options");
+
+            var register = new ToolStripMenuItem("Register on startup");
+            register.Click += delegate (object sender, EventArgs args)
+            {
+                this.RegisterOnStartup();
+            };
+
+            var unregister = new ToolStripMenuItem("Unregister from startup");
+            unregister.Click += delegate (object sender, EventArgs args)
+            {
+                this.UnRegisterOnStartup();
+            };
+
+            options.DropDownItems.AddRange(new ToolStripMenuItem[] { register, unregister });
+
+            return options;
         }
 
         private ToolStripMenuItem CreateMenuItem(PowerOption aOpt, bool IsActive)
@@ -110,6 +115,32 @@ namespace PowerSwitcher
         private void CustomizeContextMenuStrip()
         {
             this.trayIcon.ContextMenuStrip.Renderer = new StyleRenderer();
+        }
+
+        #endregion
+
+        #region App startup Registration / Unregistration
+
+        private void RegisterOnStartup()
+        {
+            using(var helper = new RegistryHelper())
+            {
+                if (!helper.IsRegisteredOnStartup)
+                {
+                    helper.RegisterOnStartup(AppVariables.ApplicationName);
+                }
+            }
+        }
+
+        private void UnRegisterOnStartup()
+        {
+            using (var helper = new RegistryHelper())
+            {
+                if (helper.IsRegisteredOnStartup)
+                {
+                    helper.UnRegisterOnStartup(AppVariables.ApplicationName);
+                }
+            }
         }
 
         #endregion

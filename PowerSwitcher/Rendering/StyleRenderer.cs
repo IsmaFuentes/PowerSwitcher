@@ -19,9 +19,9 @@ namespace PowerSwitcher.Rendering
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var r = new Rectangle(e.ArrowRectangle.Location, e.ArrowRectangle.Size);
-            r.Inflate(-2, -6);
+            r.Inflate(-4, -6);
 
-            e.Graphics.DrawLines(this.LineColor, new Point[] 
+            e.Graphics.DrawLines(this.LineColor, new Point[]
             {
                 new Point(r.Left, r.Top),
                 new Point(r.Right, r.Top + r.Height / 2),

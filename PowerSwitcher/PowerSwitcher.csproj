@@ -64,6 +64,7 @@
     <Compile Include="Rendering\ColorTable.cs" />
     <Compile Include="Rendering\StyleRenderer.cs" />
     <Compile Include="TrayAppContext.cs" />
+    <Compile Include="Utils\RegistryHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
