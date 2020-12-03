@@ -7,3 +7,5 @@ Default plans:
 - Max performance
 - Balanced
 - Power saving
+
+![alt text](https://github.com/IsmaFuentes/PowerSwitcher/blob/master/Assets/caption.png)
