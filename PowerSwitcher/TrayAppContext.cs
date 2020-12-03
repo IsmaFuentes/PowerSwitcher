@@ -127,7 +127,7 @@ namespace PowerSwitcher
             {
                 if (!helper.IsRegisteredOnStartup)
                 {
-                    helper.RegisterOnStartup(AppVariables.ApplicationName);
+                    helper.RegisterOnStartup();
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace PowerSwitcher
             {
                 if (helper.IsRegisteredOnStartup)
                 {
-                    helper.UnRegisterOnStartup(AppVariables.ApplicationName);
+                    helper.UnRegisterOnStartup();
                 }
             }
         }
@@ -149,10 +149,8 @@ namespace PowerSwitcher
         {
             // set icon visibility to false
             trayIcon.Visible = false;
-
             // unsubscribe from previous subscribed events
             trayIcon.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
-
             // close app
             Application.Exit();
         }

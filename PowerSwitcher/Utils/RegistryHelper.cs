@@ -23,14 +23,14 @@ namespace PowerSwitcher.Utils
             get => (rKey.GetValue(AppVariables.ApplicationName) != null) ? true : false;
         }
 
-        public void RegisterOnStartup(string ApplicationName)
+        public void RegisterOnStartup()
         {
-            rKey.SetValue(ApplicationName, Application.ExecutablePath);
+            rKey.SetValue(AppVariables.ApplicationName, Application.ExecutablePath);
         }
 
-        public void UnRegisterOnStartup(string ApplicationName)
+        public void UnRegisterOnStartup()
         {
-            rKey.DeleteValue(ApplicationName);
+            rKey.DeleteValue(AppVariables.ApplicationName);
         }
     }
 }
